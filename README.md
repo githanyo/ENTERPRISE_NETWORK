@@ -1,6 +1,6 @@
 # MOJ Enterprise Network Simulation (Cisco Packet Tracer)
 ---
-!Network Topology (topology/logical_topology.png)
+![Network Topology](topology/logical_topology.png)
 
 ## Overview
 
