@@ -6,7 +6,7 @@ To configure HSRP and understand gateway redundancy and failover.
 
 ## Topology
 
-![hsrp-network-topology](/topology.png)
+![hsrp-network-topology](./topology.png)
 
 ## Devices Used
 
@@ -64,11 +64,10 @@ Commands used:
 show standby
 ping 192.168.10.1
 ```
-![hsrp-verification](/R1-hsrp-verifcation.png)
+![hsrp-verification](./standby-info.png)
 ---
-![hsrp-verification](/R2-hsrp-verifcation.png)
 ## Testing Performed
-![testing image screenshot](/failover-verification.png)
+![testing image screenshot](./failover-verification.png)
 - Continuous ping from PC
 - Shutdown of active router interface
 - Observed automatic failover

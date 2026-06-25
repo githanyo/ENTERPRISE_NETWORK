@@ -6,7 +6,7 @@ To configure EtherChannel using LACP and understand how multiple physical links 
 
 ## Topology
 
-![PC1 ---- Switch1 ==== Switch2 ---- PC2](/Topology.png)
+![PC1 ---- Switch1 ==== Switch2 ---- PC2](./Topology.png)
 
 Where:
 
@@ -59,13 +59,13 @@ Commands used:
 show etherchannel summary
 ping 192.168.1.20
 ```
-![EtherChannel-Info-Screenshot](/verification.png)
+![EtherChannel-Info-Screenshot](./verification.png)
 ## Testing Performed
 
 - Continuous ping test
 - Disconnected individual links
 - Verified traffic continued through remaining links
-![Redundancy](/redundancy.png)
+![Redundancy](./redundancy.png)
 
 ---
 
