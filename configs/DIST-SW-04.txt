@@ -1,0 +1,53 @@
+enable
+conf t
+hostname DIST-SW-04
+!
+ip routing
+!
+interface Loopback0
+ ip address 10.255.255.24 255.255.255.255
+!
+interface Port-channel1
+interface GigabitEthernet1/0/2
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/3
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/10
+ no switchport
+ ip address 172.16.0.42 255.255.255.252
+!
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan20
+ mac-address 00d0.97d0.7201
+ ip address 192.168.20.3 255.255.255.0
+!
+interface Vlan21
+ mac-address 00d0.97d0.7202
+ ip address 192.168.21.3 255.255.255.0
+!
+interface Vlan22
+ mac-address 00d0.97d0.7203
+ ip address 192.168.22.3 255.255.255.0
+ ip helper-address 172.16.0.58
+!
+router ospf 1
+ router-id 10.255.255.23
+ passive-interface Vlan20
+ passive-interface Vlan21
+ passive-interface Vlan22
+ network 172.16.0.36 0.0.0.3 area 0
+ network 172.16.0.48 0.0.0.3 area 0
+ network 192.168.20.0 0.0.0.255 area 0
+ network 192.168.21.0 0.0.0.255 area 0
+ network 192.168.22.0 0.0.0.255 area 0
+ network 10.255.255.23 0.0.0.0 area 0
+!
+ip classless
+end
+write

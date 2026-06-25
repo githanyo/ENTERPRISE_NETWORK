@@ -1,0 +1,68 @@
+enable
+conf t
+!
+hostname DIST-SW-01
+!
+ip routing
+!
+interface Loopback0
+ ip address 10.255.255.21 255.255.255.255
+!
+interface Port-channel1
+!
+interface GigabitEthernet1/0/2
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/3
+ channel-group 1 mode active
+!
+!
+interface GigabitEthernet1/0/10
+ no switchport
+ ip address 172.16.0.30 255.255.255.252
+!
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ mac-address 0090.0c60.c501
+ ip address 192.168.10.2 255.255.255.0
+ ip helper-address 172.16.0.58
+ standby 10 ip 192.168.10.1
+ standby 10 priority 150
+ standby 10 preempt
+!
+interface Vlan11
+ mac-address 0090.0c60.c502
+ ip address 192.168.11.2 255.255.255.0
+ standby 11 ip 192.168.11.1
+ standby 11 priority 150
+ standby 11 preempt
+!
+interface Vlan12
+ mac-address 0090.0c60.c503
+ ip address 192.168.12.2 255.255.255.0
+ ip helper-address 172.16.0.58
+ standby 12 ip 192.168.12.1
+ standby 12 priority 150
+ standby 12 preempt
+!
+router ospf 1
+ router-id 10.255.255.21
+ log-adjacency-changes
+ passive-interface Vlan10
+ passive-interface Vlan11
+ passive-interface Vlan12
+ network 172.16.0.28 0.0.0.3 area 0
+ network 172.16.0.44 0.0.0.3 area 0
+ network 192.168.10.0 0.0.0.255 area 0
+ network 192.168.11.0 0.0.0.255 area 0
+ network 192.168.12.0 0.0.0.255 area 0
+ network 10.255.255.21 0.0.0.0 area 0
+!
+ip classless
+end
+write
+!

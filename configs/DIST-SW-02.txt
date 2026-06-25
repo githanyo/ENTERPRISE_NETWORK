@@ -1,0 +1,64 @@
+enable
+conf t
+!
+hostname DIST-SW-02
+!
+ip routing
+!
+spanning-tree mode pvst
+!
+interface Loopback0
+ ip address 10.255.255.22 255.255.255.255
+!
+interface Port-channel1
+!
+interface GigabitEthernet1/0/2
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/3
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/10
+ no switchport
+ ip address 172.16.0.34 255.255.255.252
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ mac-address 0006.2aa2.b201
+ ip address 192.168.10.3 255.255.255.0
+ standby 10 ip 192.168.10.1
+ standby 10 preempt
+!
+interface Vlan11
+ mac-address 0006.2aa2.b202
+ ip address 192.168.11.3 255.255.255.0
+ standby 11 ip 192.168.11.1
+ standby 11 preempt
+!
+interface Vlan12
+ mac-address 0006.2aa2.b203
+ ip address 192.168.12.3 255.255.255.0
+ standby 12 ip 192.168.12.1
+ standby 12 preempt
+!
+router ospf 1
+ router-id 10.255.255.21
+ log-adjacency-changes
+ passive-interface Vlan10
+ passive-interface Vlan11
+ passive-interface Vlan12
+ network 172.16.0.28 0.0.0.3 area 0
+ network 172.16.0.44 0.0.0.3 area 0
+ network 192.168.10.0 0.0.0.255 area 0
+ network 192.168.11.0 0.0.0.255 area 0
+ network 192.168.12.0 0.0.0.255 area 0
+ network 10.255.255.21 0.0.0.0 area 0
+!
+ip classless
+!
+end
+write
+!

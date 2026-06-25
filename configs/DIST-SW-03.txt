@@ -1,0 +1,54 @@
+!
+hostname DIST-SW-03
+!
+ip routing
+!
+interface Loopback0
+ ip address 10.255.255.23 255.255.255.255
+!
+interface Port-channel1
+!
+interface GigabitEthernet1/0/2
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/3
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/10
+ no switchport
+ ip address 172.16.0.38 255.255.255.252
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan20
+ mac-address 00d0.bc69.0701
+ ip address 192.168.20.2 255.255.255.0
+ ip helper-address 172.16.0.58
+!
+interface Vlan21
+ mac-address 00d0.bc69.0702
+ ip address 192.168.21.2 255.255.255.0
+!
+interface Vlan22
+ mac-address 00d0.bc69.0703
+ ip address 192.168.22.2 255.255.255.0
+!
+router ospf 1
+ router-id 10.255.255.23
+ log-adjacency-changes
+ passive-interface Vlan20
+ passive-interface Vlan21
+ passive-interface Vlan22
+ network 172.16.0.36 0.0.0.3 area 0
+ network 172.16.0.48 0.0.0.3 area 0
+ network 192.168.20.0 0.0.0.255 area 0
+ network 192.168.21.0 0.0.0.255 area 0
+ network 192.168.22.0 0.0.0.255 area 0
+ network 10.255.255.23 0.0.0.0 area 0
+!
+ip classless
+end
+write
+!

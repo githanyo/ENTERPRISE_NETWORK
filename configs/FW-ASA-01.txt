@@ -1,0 +1,92 @@
+!
+hostname FW-ASA-01
+domain-name wr
+names
+!
+interface GigabitEthernet1/1
+ nameif outside-A
+ security-level 0
+ ip address 172.16.0.6 255.255.255.252
+!
+interface GigabitEthernet1/2
+ nameif outside-B
+ security-level 0
+ ip address 172.16.0.10 255.255.255.252
+!
+interface GigabitEthernet1/3
+ nameif inside-A
+ security-level 100
+ ip address 172.16.0.13 255.255.255.252
+!
+interface GigabitEthernet1/4
+ nameif inside-B
+ security-level 100
+ ip address 172.16.0.17 255.255.255.252
+!
+interface GigabitEthernet1/5
+ no nameif
+ no security-level
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/6
+ no nameif
+ no security-level
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/7
+ no nameif
+ no security-level
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/8
+ no nameif
+ no security-level
+ no ip address
+ shutdown
+!
+interface Management1/1
+ management-only
+ no nameif
+ no security-level
+ no ip address
+ shutdown
+!
+object network INTERNAL-ALL
+ subnet 192.168.0.0 255.255.0.0
+ nat (inside-A,outside-A) dynamic interface
+!
+route outside-A 0.0.0.0 0.0.0.0 172.16.0.5 1
+route outside-B 0.0.0.0 0.0.0.0 172.16.0.9 10
+route inside-A 192.168.0.0 255.255.0.0 172.16.0.14 1
+route inside-B 192.168.0.0 255.255.0.0 172.16.0.18 10
+route inside-A 172.16.0.0 255.255.0.0 172.16.0.14 1
+route inside-B 172.16.0.0 255.255.0.0 172.16.0.18 10
+!
+access-list INSIDE-OUT extended permit ip 192.168.0.0 255.255.0.0 any
+!
+!
+access-group INSIDE-OUT in interface inside-A
+access-group INSIDE-OUT in interface inside-B
+!
+!
+class-map inspection_default
+ match default-inspection-traffic
+!
+policy-map type inspect dns preset_dns_map
+ parameters
+  message-length maximum 512
+policy-map global_policy
+ class inspection_default
+  inspect dns preset_dns_map
+  inspect ftp 
+  inspect tftp 
+!
+service-policy global_policy global
+!
+telnet timeout 5
+ssh timeout 5
+!
+!
