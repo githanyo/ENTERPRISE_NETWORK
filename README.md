@@ -1,4 +1,4 @@
-# MOJ Enterprise Network Simulation (Cisco Packet Tracer)
+# Enterprise Network Simulation (Cisco Packet Tracer)
 ---
 ![Network Topology](topology/logical_topology.png)
 
